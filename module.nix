@@ -10,6 +10,7 @@ in
 {
   options.programs.saber-cursor = {
     enable = lib.mkEnableOption "Enables saber cursor.";
+    use-plasma = lib.mkEnableOption "Enables plasma config for cursor.";
     package = lib.mkOption {
       type = lib.types.package;
       default = pkgs.callPackage ./package.nix { };
@@ -23,7 +24,7 @@ in
     home.file.".local/share/icons/saber-cursor".source = "${cfg.package}/share/icons/saber-cursor";
 
     # Setting up plasma cursor
-    programs.plasma.workspace.cursor = {
+    programs.plasma.workspace.cursor = lib.mkIf cfg.use-plasma {
       cursorFeedback = "Bouncing";
       size = 48;
       theme = "Saber Icon theme";
